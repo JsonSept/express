@@ -21,6 +21,7 @@ const getFriends = async()=> {
     `)
     return result
 }
+
 // prepared statements
 const getFriend = async(id) =>{
     const [result] = await pool.query(`
@@ -36,7 +37,20 @@ const addFriend = async(name, age) => {
     `,[name, age])
     return getFriend(friend.insertId)
 }
+const deleteFriend = async(id) => {
+    const [result] = await pool.query(`
+    DELETE FROM buds where (id) = (?)
+    `,[id])
+    return result
+}
 
+const editFriend = async(name,age,id) => {
+    const [friend] = await pool.query(`
+    UPdate buds set name = ? ,age = ?
+    WHERE (id = ?)  
+    `,[name,age,id])
+    return friend
+}
 // console.log(await addFriend('Darren',52));
 
-export {getFriends, getFriend, addFriend}
+export {getFriends, getFriend, addFriend , deleteFriend ,editFriend}
